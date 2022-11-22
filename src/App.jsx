@@ -1,3 +1,4 @@
+import React from "react";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Landing from "./pages/Landing";
