@@ -1,39 +1,44 @@
+import React from "react";
 import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   CssBaseline,
-  FormControlLabel,
   TextField,
   Typography,
+  InputAdornment,
 } from "@mui/material";
+import KeyIcon from "@mui/icons-material/Key";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonIcon from "@mui/icons-material/Person";
+import SendIcon from "@mui/icons-material/Send";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Copyright from "../../components/Copyright";
 
 const Login = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState({
-    user: "",
+    dni: "",
     password: "",
   });
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    if (input.user && input.password) {
-      setInput({ user: "", password: "" });
+    if (input.dni && input.password) {
+      setInput({ dni: "", password: "" });
       navigate("/admin");
     } else {
-      Swal.fire("Error!", "Rellena los campos!", "error");
+      Swal.fire("Ups!", "Tienes que completar todos los campos", "error");
     }
   };
 
   const handleOnChange = (e) => {
+    const { name, value } = e.target;
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -51,8 +56,8 @@ const Login = () => {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Moto-Wash
+        <Typography fontSize="30px" component="h1">
+          The Best Washing
         </Typography>
         <Box
           component="form"
@@ -65,11 +70,17 @@ const Login = () => {
             type="text"
             required
             fullWidth
-            id="user"
-            label="Usuario"
-            name="user"
+            id="dni"
+            name="dni"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonIcon />
+                </InputAdornment>
+              ),
+            }}
             autoFocus
-            value={input.user}
+            value={input.dni}
             onChange={handleOnChange}
           />
           <TextField
@@ -77,25 +88,29 @@ const Login = () => {
             required
             fullWidth
             name="password"
-            label="Contraseña"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <KeyIcon />
+                </InputAdornment>
+              ),
+            }}
             type="password"
             id="password"
             value={input.password}
             onChange={handleOnChange}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Recordarme"
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            endIcon={<SendIcon />}
           >
             Entrar
           </Button>
         </Box>
+        <Copyright/>
       </Box>
     </div>
   );
