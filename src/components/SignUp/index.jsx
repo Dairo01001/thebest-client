@@ -6,17 +6,20 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import login from "../../services/login";
+import { getOperators } from "../../services/operator";
+import { addOperators } from "../../redux/reducers/employeeSlice";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
   const [input, setInput] = React.useState({
     dni: "",
     names: "",
@@ -51,7 +54,10 @@ const SignUp = () => {
           surnames: "",
           phone: "",
         });
-        navigate('/employee');
+        getOperators().then((data) => {
+          dispatch(addOperators(data));
+        });
+        navigate("/admin");
       })
       .catch((err) => {
         Swal.fire("Error!", err.response.data.msg, "error");

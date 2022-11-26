@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const employeeSlice = createSlice({
   name: "employee",
   initialState: {
-    operators: [],
-    auxiliars: [],
+    operators: null,
+    auxiliars: null,
   },
   reducers: {
     addOperators: (state, { payload }) => {

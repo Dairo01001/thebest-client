@@ -4,6 +4,8 @@ import Groups3Icon from "@mui/icons-material/Groups3";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { Link } from "react-router-dom";
+import CreateTeam from "../../components/CreateTeam";
+import TeamTable from "../../components/TeamTable";
 
 const Team = () => {
   const [value, setValue] = useState(0);
@@ -24,6 +26,7 @@ const Team = () => {
           label="Admin"
         />
       </Tabs>
+      {value === 0 ? <TeamTable /> : value === 1 ? <CreateTeam /> : null}
     </div>
   );
 };
