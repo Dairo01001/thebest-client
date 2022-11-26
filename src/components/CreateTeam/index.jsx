@@ -38,18 +38,36 @@ const CreateTeam = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (input.name.length > 4) {
-      createTeam(input)
-        .then((data) => {
-          Swal.fire("Informacion", "Equipo creado con exito!", "success");
-          getTeams().then((data) => {
-            dispatch(addTeams(data));
+      if (select.operario1 !== "" || select.operario2 !== "") {
+        if (select.operario1 === select.operario2) {
+          return Swal.fire("Ups!", "Deben ser diferentes!", "warning");
+        }
+        const Employees = [];
+        if (select.operario1) {
+          Employees.push(select.operario1);
+        }
+        if (select.operario2) {
+          Employees.push(select.operario2);
+        }
+
+        createTeam({ ...input, Employees })
+          .then((data) => {
+            Swal.fire("Informacion", "Equipo creado con exito!", "success");
+            getTeams().then((data) => {
+              dispatch(addTeams(data));
+            });
+            getOperatorsTeam().then((data) => {
+              dispatch(addOperatorsTeam(data));
+            });
+          })
+          .catch((err) => {
+            Swal.fire("Error!", err.response.data.msg, "error");
           });
-        })
-        .catch((err) => {
-          Swal.fire("Error!", err.response.data.msg, "error");
-        });
-      setInput({ name: "" });
-      navigate("/admin");
+        setInput({ name: "" });
+        navigate("/admin");
+      } else {
+        Swal.fire("Ups!", "Debes elegir por lo menos un integrante");
+      }
     } else {
       Swal.fire(
         "Upps!",

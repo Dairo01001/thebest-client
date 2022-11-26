@@ -10,9 +10,13 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { removeUser } from "../../redux/reducers/userSlice";
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 
 const AdminOptions = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }} component="nav">
@@ -38,6 +42,16 @@ const AdminOptions = () => {
       </ListItemButton>
       <ListItemButton
         onClick={() => {
+          navigate("/combo");
+        }}
+      >
+        <ListItemIcon>
+          <AddToPhotosIcon />
+        </ListItemIcon>
+        <ListItemText primary="Combos" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={() => {
           Swal.fire({
             title: "Salir!",
             text: "¿Seguro desea salir?",
@@ -45,6 +59,7 @@ const AdminOptions = () => {
             showCancelButton: true,
           }).then((res) => {
             if (res.isConfirmed) {
+              dispatch(removeUser());
               navigate("/");
             }
           });
