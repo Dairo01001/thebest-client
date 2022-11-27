@@ -13,8 +13,8 @@ import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import login from "../../services/login";
-import { getOperators } from "../../services/operator";
-import { addOperators } from "../../redux/reducers/employeeSlice";
+import PercentIcon from "@mui/icons-material/Percent";
+import { InputAdornment } from "@mui/material";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const SignUp = () => {
     names: "",
     surnames: "",
     phone: "",
+    commission: 0,
   });
   const [birthDate, setBirthDate] = React.useState(dayjs("2000-01-01"));
 
@@ -53,9 +54,7 @@ const SignUp = () => {
           names: "",
           surnames: "",
           phone: "",
-        });
-        getOperators().then((data) => {
-          dispatch(addOperators(data));
+          commission: 0,
         });
         navigate("/admin");
       })
@@ -88,7 +87,7 @@ const SignUp = () => {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={8}>
               <TextField
                 required
                 fullWidth
@@ -98,6 +97,26 @@ const SignUp = () => {
                 label="Numero identificacion"
                 id="dni"
                 value={input.dni}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                required
+                fullWidth
+                type="number"
+                autoFocus
+                name="commission"
+                label="Comision"
+                id="commission"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <PercentIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                value={input.commission}
                 onChange={handleChange}
               />
             </Grid>

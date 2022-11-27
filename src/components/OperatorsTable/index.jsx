@@ -10,11 +10,9 @@ const OperatorsTable = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!operators) {
-      getOperators().then((data) => {
-        dispatch(addOperators(data));
-      });
-    }
+    getOperators().then((data) => {
+      dispatch(addOperators(data));
+    });
   }, []);
 
   if (!operators) {
